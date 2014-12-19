@@ -1,0 +1,81 @@
+---
+title       : Predicting Baseball Scored Runs
+subtitle    : Developing Data Products Project
+author      : Ahmad Ammari
+job         : Data Scientist
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [bootstrap, quiz]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Exploring Linear Relationships
+
+In this presentation, we will explore the linear relationship between the Runs Scored by Baseball Teams in a season and other Team Variables, such as:
+
+- **at_bats:** Plate appearances, not including bases on balls, being hit by pitch, sacrifices, interference, or obstruction
+- **bat_avg:** batting average
+- **strikeouts:** number of times that a third strike is taken or swung at and missed, or bunted foul
+- **stolen_bases:** number of bases advanced by the runner while the ball is in the possession of the defense
+
+Then, you will try to identify which variable has the strongest linear relationship with Scored Runs and hence can be best used to predict the team's Scored Runs. 
+
+--- .class #id 
+
+## Scored Runs vs. at_bats and bat_avg 
+
+```{r simple-plot1, fig.height = 6, fig.width = 18, fig.align = 'center', echo=FALSE}
+load(url("http://www.openintro.org/stat/data/mlb11.RData"))
+require(ggplot2)
+require(grid)
+require(gridExtra)
+cor1 <- as.character(round(cor(mlb11$at_bats, mlb11$runs), 3))
+chart1_title <- paste("Correlation = ",cor1)
+cor2 <- as.character(round(cor(mlb11$bat_avg, mlb11$runs), 3))
+chart2_title <- paste("Correlation = ",cor2)
+p1 <- qplot(at_bats, runs, data = mlb11, geom=c("point", "smooth"), 
+   method="lm", formula=y~x) + theme_grey(base_size = 18) + ggtitle(paste(chart1_title))
+p2 <- qplot(bat_avg, runs, data = mlb11, geom=c("point", "smooth"), 
+   method="lm", formula=y~x) + theme_grey(base_size = 18) + ggtitle(paste(chart2_title))
+grid.arrange(p1, p2, ncol = 2)
+```
+
+---
+
+## Scored Runs vs. strikeouts and stolen_bases 
+
+```{r simple-plot2, fig.height = 6, fig.width = 18, fig.align = 'center', echo=FALSE}
+load(url("http://www.openintro.org/stat/data/mlb11.RData"))
+require(ggplot2)
+require(grid)
+require(gridExtra)
+cor1 <- as.character(round(cor(mlb11$strikeouts, mlb11$runs), 3))
+chart1_title <- paste("Correlation = ",cor1)
+cor2 <- as.character(round(cor(mlb11$stolen_bases, mlb11$runs), 3))
+chart2_title <- paste("Correlation = ",cor2)
+p1 <- qplot(strikeouts, runs, data = mlb11, geom=c("point", "smooth"), 
+   method="lm", formula=y~x) + theme_grey(base_size = 18) + ggtitle(paste(chart1_title))
+p2 <- qplot(stolen_bases, runs, data = mlb11, geom=c("point", "smooth"), 
+   method="lm", formula=y~x) + theme_grey(base_size = 18) + ggtitle(paste(chart2_title))
+grid.arrange(p1, p2, ncol = 2)
+```
+
+--- &radio
+## Which Variable can best Predict Scored Runs?
+
+Based on investigating the Linear Relationship between the Team Variables and the Scored Runs, which Variable can be best used to Predict Runs Scored by a Baseball team in a Season?
+
+1. at_bats
+2. _bat_avg_
+3. strikeouts
+4. stolen_bases
+
+*** .hint 
+Try to Explore the Linear Regression Figures and see which Variable has the strongest correlation with Scored Runs. 
+
+*** .explanation 
+The Best Variable used for Prediction is the one having the Maximum Correlation Value with Scored Runs. Based on the Previous Linear Regression Figures, the Best Variable is Batting Average (bat_avg) 
+
+
